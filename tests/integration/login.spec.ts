@@ -12,9 +12,11 @@ test.describe('Sign in tests', () => {
 
   test('User can sign in with valid credentails', async () => {
     //Arrange
+    const firstName = testUser1.firstName;
+    const lastName = testUser1.lastName;
     const email = testUser1.email;
     const password = testUser1.password;
-    const welcomeLabel = `Welcome, ${testUser1.firstName} ${testUser1.lastName}!`;
+    const welcomeLabel = `Welcome, ${firstName} ${lastName}!`;
 
     //Act
     const loginPage = await homePage.clickSignInButton();
@@ -22,5 +24,20 @@ test.describe('Sign in tests', () => {
 
     //Assert
     await expect(homePage.welcomeLabel).toHaveText(welcomeLabel);
+  });
+
+  test('User cannot sign in with invalid password', async () => {
+    //Arrange
+    const email = testUser1.email;
+    const password = 'invalidPassword';
+
+    //Act
+    const loginPage = await homePage.clickSignInButton();
+    await loginPage.signIn(email, password);
+
+    //Assert
+    await expect(loginPage.signInErrorMessage).toContainText(
+      'The account sign-in was incorrect',
+    );
   });
 });

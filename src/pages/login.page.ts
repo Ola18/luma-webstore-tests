@@ -9,7 +9,9 @@ export class LoginPage extends BasePage {
 
   email = this.page.getByLabel('Email', { exact: true });
   password = this.page.getByLabel('Password', { exact: true });
-  signInButton = this.page.locator('#send2');
+  signInButton = this.page.locator('#send2').first();
+
+  signInErrorMessage = this.page.getByText('The account sign-in was incorrect');
 
   async signIn(email: string, password: string): Promise<HomePage> {
     await this.signInButton.click();
