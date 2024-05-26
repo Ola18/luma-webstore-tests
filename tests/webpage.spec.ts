@@ -2,7 +2,7 @@ import { HomePage } from '../src/pages/home.page';
 import { RegisterPage } from '../src/pages/register.page';
 import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('has title @smoke', async ({ page }) => {
   //Arrange
   const homePage = new HomePage(page);
 
@@ -14,7 +14,7 @@ test('has title', async ({ page }) => {
   expect(title).toContain('Home Page');
 });
 
-test('register user title', async ({ page }) => {
+test('register user title @smoke', async ({ page }) => {
   //Arrange
   const registerPage = new RegisterPage(page);
 
