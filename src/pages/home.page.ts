@@ -1,13 +1,9 @@
+import { BasePage } from './base.page';
 import { Page } from '@playwright/test';
 
-export class HomePage {
-  constructor(private page: Page) {}
-
-  async goto(): Promise<void> {
-    await this.page.goto('');
-  }
-
-  async title(): Promise<string> {
-    return await this.page.title();
+export class HomePage extends BasePage {
+  url = '/';
+  constructor(page: Page) {
+    super(page);
   }
 }
