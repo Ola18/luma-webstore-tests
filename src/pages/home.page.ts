@@ -1,4 +1,5 @@
 import { BasePage } from './base.page';
+import { LoginPage } from './login.page';
 import { Page } from '@playwright/test';
 
 export class HomePage extends BasePage {
@@ -7,4 +8,11 @@ export class HomePage extends BasePage {
   }
 
   url = '/';
+  signInButton = this.page.getByRole('link', { name: 'Sign in' });
+  welcomeLabel = this.page.locator('.logged-in').first();
+
+  async clickSignInButton(): Promise<LoginPage> {
+    await this.signInButton.click();
+    return new LoginPage(this.page);
+  }
 }
