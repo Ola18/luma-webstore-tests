@@ -9,6 +9,4 @@ export class Account extends BasePage {
   uel = '/customer/account/';
   succesRegistrationMsg = this.page.locator('.message-success.success.message');
   userData = this.page.locator('.box.box-information .box-content');
-
-  
 }
