@@ -1,5 +1,7 @@
+import { TopMenu } from '../components/top.menu';
 import { BasePage } from './base.page';
 import { LoginPage } from './login.page';
+import { RegisterPage } from './register.page';
 import { Page } from '@playwright/test';
 
 export class HomePage extends BasePage {
@@ -8,11 +10,15 @@ export class HomePage extends BasePage {
   }
 
   url = '/';
-  signInButton = this.page.getByRole('link', { name: 'Sign in' });
-  welcomeLabel = this.page.locator('.logged-in').first();
+  topmenu = new TopMenu(this.page);
 
   async clickSignInButton(): Promise<LoginPage> {
-    await this.signInButton.click();
+    await this.topmenu.signInButton.click();
     return new LoginPage(this.page);
+  }
+
+  async clickRegisterButton(): Promise<RegisterPage> {
+    await this.topmenu.registerButton.click();
+    return new RegisterPage(this.page);
   }
 }

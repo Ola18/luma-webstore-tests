@@ -1,3 +1,4 @@
+import { TopMenu } from '../components/top.menu';
 import { BasePage } from './base.page';
 import { HomePage } from './home.page';
 import { Page } from '@playwright/test';
@@ -7,6 +8,7 @@ export class LoginPage extends BasePage {
     super(page);
   }
 
+  topMenu = new TopMenu(this.page);
   email = this.page.getByLabel('Email', { exact: true });
   password = this.page.getByLabel('Password', { exact: true });
   signInButton = this.page.locator('#send2').first();

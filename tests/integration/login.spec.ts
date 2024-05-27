@@ -23,7 +23,7 @@ test.describe('Sign in tests', () => {
     homePage = await loginPage.signIn(email, password);
 
     //Assert
-    await expect(homePage.welcomeLabel).toHaveText(welcomeLabel);
+    await expect(homePage.topmenu.welcomeLabel).toHaveText(welcomeLabel);
   });
 
   test('User cannot sign in with invalid password', async () => {
