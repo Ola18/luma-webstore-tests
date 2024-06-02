@@ -8,7 +8,7 @@ test.describe('Verify main menu buttons', () => {
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
-    homePage.goto();
+    await homePage.goto();
     mainMenu = new MainMenu(page);
   });
 
@@ -38,5 +38,16 @@ test.describe('Verify main menu buttons', () => {
     //Assert
     const title = await (await homePage).title();
     expect(title).toContain('Home Page');
+  });
+
+  test('women menu items visible after hovering over @smoke', async () => {
+    //Act
+    mainMenu.womenButton.hover();
+
+    //Assert
+    await expect(mainMenu.topsItems).toBeVisible();
+    await expect.soft(mainMenu.topsItems).toHaveText('Tops');
+    await expect(mainMenu.bottomsItems).toBeVisible();
+    await expect.soft(mainMenu.bottomsItems).toHaveText('Bottoms');
   });
 });

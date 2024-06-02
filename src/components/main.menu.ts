@@ -6,9 +6,13 @@ import { Page } from '@playwright/test';
 export class MainMenu {
   constructor(private page: Page) {}
 
-  womenButton = this.page.locator('#ui-id-4');
   menButton = this.page.locator('#ui-id-5');
   homePage = this.page.getByLabel('store logo');
+
+  //womenMenu
+  womenButton = this.page.locator('#ui-id-4');
+  topsItems = this.page.locator('#ui-id-9');
+  bottomsItems = this.page.locator('#ui-id-10');
 
   async clickWomenButton(): Promise<WomenPage> {
     await this.womenButton.click();
