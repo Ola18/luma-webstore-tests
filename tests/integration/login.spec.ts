@@ -7,7 +7,7 @@ test.describe('Sign in tests', () => {
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
-    homePage.goto();
+    await homePage.goto();
   });
 
   test('User can sign in with valid credentails', async () => {

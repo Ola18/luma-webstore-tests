@@ -18,6 +18,7 @@ export class RegisterPage extends BasePage {
   });
   userConfirmPasswordInput = this.page.getByLabel('Confirm Password');
   registerButton = this.page.getByRole('button', { name: 'Create an Account' });
+  incorrectEmailMsg = this.page.locator('#email_address-error');
 
   async registerUser(user: User): Promise<Account> {
     await this.userFirstNameInput.fill(user.firstName);

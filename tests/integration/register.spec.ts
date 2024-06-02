@@ -7,7 +7,7 @@ test.describe('Verify register', () => {
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
-    homePage.goto();
+    await homePage.goto();
   });
 
   test('User can register with correct data', async () => {
@@ -28,5 +28,20 @@ test.describe('Verify register', () => {
       `${userData.firstName} ${userData.lastName}`,
     );
     await expect(account.userData).toContainText(`${userData.email}`);
+  });
+
+  test('User cannot register with incorrect email', async () => {
+    //Arrange
+    const userData = createUserData();
+    userData.email = 'invalid_email.com';
+    const expectedErrorMsg =
+      'Please enter a valid email address (Ex: johndoe@domain.com).';
+
+    //Act
+    const registerPage = await homePage.clickRegisterButton();
+    await registerPage.registerUser(userData);
+
+    //Assert
+    await expect(registerPage.incorrectEmailMsg).toHaveText(expectedErrorMsg);
   });
 });
