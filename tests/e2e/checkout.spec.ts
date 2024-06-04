@@ -22,7 +22,7 @@ test.describe('Verify main menu buttons', () => {
     checkoutPage = new CheckoutShippingPage(page);
   });
 
-  test('positive proceed checkout with random women product', async () => {
+  test('positive checkout with random women product', async () => {
     const womenPage = await test.step('go to women category', async () => {
       //Act
       const womenPage = await mainMenu.clickWomenButton();
