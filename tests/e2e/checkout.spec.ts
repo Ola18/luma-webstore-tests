@@ -55,33 +55,34 @@ test.describe('Verify main menu buttons', () => {
       //Arrange
       const addItemSuccessMessage = `You added ${itemName} to your shopping cart.`;
 
+      //Act
       await itemPage.waitForSizeLocator();
       const size = await itemPage.clickRandomSize();
       const color = await itemPage.clickRandomColor();
+      const item = await itemPage.clickAddToCartButton();
 
       //Assert
       await expect.soft(itemPage.checkedSize).toHaveText(size);
       await expect.soft(itemPage.checkedColor).toHaveText(color);
-
-      const item = await itemPage.clickAddToCartButton();
-
       await expect
         .soft(itemPage.addedItemSuccessMessage)
         .toHaveText(addItemSuccessMessage);
       await expect(itemPage.cartQuantity).toHaveText('1');
 
-      // await itemPage.refreshPage();
-      await itemPage.goToCheckoutPage();
       return item;
     });
 
     const shippingAddressData =
       await test.step('positive checkout-shipping for non logged user', async () => {
-        await checkoutPage.waitForPageToLoadUrl();
+        //Arrange
         const shippingAddressData = generateShippingAddress();
 
+        //Act
+        await itemPage.goToCheckoutPage();
+        await checkoutPage.waitForPageToLoadUrl();
         await checkoutPage.fillShippingAddressForm(shippingAddressData);
 
+        //Assert
         await expect(checkoutPage.itemName).toHaveText(item.name);
         await expect(checkoutPage.itemPrice).toHaveText(item.price);
         await expect(checkoutPage.itemSize).toHaveText(item.size);
@@ -89,33 +90,43 @@ test.describe('Verify main menu buttons', () => {
         return shippingAddressData;
       });
 
-    await test.step('positive checkout-payments for non logged user', async () => {
-      const checkoutPaymnetPage = await checkoutPage.clickNextButton();
-      checkoutPaymnetPage.waitForPageToLoadUrl();
+    const checkoutPaymnetPage =
+      await test.step('positive checkout-payments for non logged user', async () => {
+        const checkoutPaymnetPage = await checkoutPage.clickNextButton();
+        checkoutPaymnetPage.waitForPageToLoadUrl();
 
-      await checkoutPaymnetPage.shippingAddress.waitFor({ state: 'visible' });
+        await checkoutPaymnetPage.shippingAddress.waitFor({ state: 'visible' });
 
-      const shippingAddressText =
-        await checkoutPaymnetPage.getShippingAddressText();
-      const billingAddressText =
-        await checkoutPaymnetPage.getBillingAddressText();
-      const addressLines = `${shippingAddressData.firstName} ${shippingAddressData.lastName},${shippingAddressData.streetAddress},${shippingAddressData.city}, ${shippingAddressData.state} ${shippingAddressData.postalCode},${shippingAddressData.country},${shippingAddressData.phoneNumber}`;
+        const shippingAddressText =
+          await checkoutPaymnetPage.getShippingAddressText();
+        const billingAddressText =
+          await checkoutPaymnetPage.getBillingAddressText();
+        const addressLines = `${shippingAddressData.firstName} ${shippingAddressData.lastName},${shippingAddressData.streetAddress},${shippingAddressData.city}, ${shippingAddressData.state} ${shippingAddressData.postalCode},${shippingAddressData.country},${shippingAddressData.phoneNumber}`;
+
+        //Assert order details
+        await expect(checkoutPaymnetPage.itemName).toHaveText(item.name);
+        await expect(checkoutPage.itemPrice).toHaveText(item.price);
+        await expect(checkoutPage.itemSize).toHaveText(item.size);
+        await expect(checkoutPage.itemColor).toHaveText(item.color);
+
+        //Assert addresses
+        await expect
+          .soft(checkoutPaymnetPage.sameAddressCheckbox)
+          .toBeChecked();
+        expect(shippingAddressText).toContain(addressLines);
+        expect(billingAddressText).toContain(addressLines);
+        return checkoutPaymnetPage;
+      });
+
+    await test.step('finish checkout', async () => {
+      //Arrange
       const successMessage = 'Thank you for your purchase!';
 
-      //Assert order details
-      await expect(checkoutPaymnetPage.itemName).toHaveText(item.name);
-      await expect(checkoutPage.itemPrice).toHaveText(item.price);
-      await expect(checkoutPage.itemSize).toHaveText(item.size);
-      await expect(checkoutPage.itemColor).toHaveText(item.color);
-
-      //Assert addresses
-      await expect.soft(checkoutPaymnetPage.sameAddressCheckbox).toBeChecked();
-      expect(shippingAddressText).toContain(addressLines);
-      expect(billingAddressText).toContain(addressLines);
-
+      //Act
       const checkoutSucessPage =
         await checkoutPaymnetPage.clickPlaceOrderButton();
 
+      //Assert
       await expect(checkoutSucessPage.thankYouMessage).toHaveText(
         successMessage,
       );
