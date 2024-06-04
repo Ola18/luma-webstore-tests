@@ -40,14 +40,14 @@ test.describe('Verify main menu buttons', () => {
     expect(title).toContain('Home Page');
   });
 
-  test('women menu items visible after hovering over @smoke', async () => {
+  test('women menu items visible after hovering over main category @smoke', async () => {
     //Act
     mainMenu.womenButton.hover();
 
     //Assert
-    await expect(mainMenu.topsItems).toBeVisible();
-    await expect.soft(mainMenu.topsItems).toHaveText('Tops');
-    await expect(mainMenu.bottomsItems).toBeVisible();
-    await expect.soft(mainMenu.bottomsItems).toHaveText('Bottoms');
+    await expect(mainMenu.womenTopsItems).toBeVisible();
+    await expect.soft(mainMenu.womenTopsItems).toHaveText('Tops');
+    await expect(mainMenu.womenBottomsItems).toBeVisible();
+    await expect.soft(mainMenu.womenBottomsItems).toHaveText('Bottoms');
   });
 });

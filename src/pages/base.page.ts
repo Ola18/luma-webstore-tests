@@ -15,4 +15,8 @@ export class BasePage {
   async waitForPageToLoadUrl(): Promise<void> {
     await this.page.waitForURL(this.url);
   }
+
+  async refreshPage(): Promise<void> {
+    await this.page.reload();
+  }
 }

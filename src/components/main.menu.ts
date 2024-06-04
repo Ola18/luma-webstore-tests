@@ -6,13 +6,33 @@ import { Page } from '@playwright/test';
 export class MainMenu {
   constructor(private page: Page) {}
 
-  menButton = this.page.locator('#ui-id-5');
   homePage = this.page.getByLabel('store logo');
 
-  //womenMenu
+  //women menu
   womenButton = this.page.locator('#ui-id-4');
-  topsItems = this.page.locator('#ui-id-9');
-  bottomsItems = this.page.locator('#ui-id-10');
+
+  womenTopsItems = this.page.locator('#ui-id-9');
+  womenJackets = this.page.locator('#ui-id-11');
+  womenHoodiesSweatshirts = this.page.locator('#ui-id-12');
+  womenTees = this.page.locator('#ui-id-13');
+  womenBrassTanks = this.page.locator('#ui-id-14');
+
+  womenBottomsItems = this.page.locator('#ui-id-10');
+  womenPants = this.page.locator('#ui-id-15');
+  womenShorts = this.page.locator('#ui-id-16');
+
+  //men menu
+  menButton = this.page.locator('#ui-id-5');
+
+  menTopsItems = this.page.locator('#ui-id-17');
+  menJackets = this.page.locator('#ui-id-19');
+  menHoodiesSweatshirts = this.page.locator('#ui-id-20');
+  menTees = this.page.locator('#ui-id-21');
+  menTanks = this.page.locator('#ui-id-22');
+
+  menBottomsItems = this.page.locator('#ui-id-18');
+  menPants = this.page.locator('ui-id-23');
+  menShorts = this.page.locator('ui-id-24');
 
   async clickWomenButton(): Promise<WomenPage> {
     await this.womenButton.click();
